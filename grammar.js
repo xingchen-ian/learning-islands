@@ -134,6 +134,22 @@ function switchGrade(grade) {
 
 gUpdateChip();
 
+/* ---------- 深链：grammar.html?point=<语法点id>&mode=quiz ---------- */
+/* 例：grammar.html?point=wh-write&mode=quiz 直接进「看答句写问句」练习 */
+(function gInitFromUrl() {
+  let qs;
+  try { qs = new URLSearchParams(location.search); } catch (e) { return; }
+  const gid = qs.get('grade');
+  if (gid && (GRAMMAR_INFO.grades || []).indexOf(gid) !== -1) gGrade = gid;
+  const pid = qs.get('point');
+  if (pid) {
+    const target = GRAMMAR.find(x => x.id === pid);
+    if (target) { gGrade = target.grade; gCurrent = target.id; }
+  }
+  const m = qs.get('mode');
+  if (m === 'quiz' || m === 'learn') gMode = m;
+})();
+
 /* ---------- 分栏 + 语法点切换导航（三行分层）---------- */
 function renderGramNav() {
   const nav = $g('#gramNav');
