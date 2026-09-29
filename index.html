@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>英语学习群岛 · 主站</title>
+  <link rel="stylesheet" href="styles.css?v=20260929a">
+  <link rel="preconnect" href="https://static.cloudbase.net" crossorigin>
+  <style>
+    .hub-main { max-width: 780px; margin: 0 auto; padding: 8px 16px 48px; }
+    .hub-head { text-align: center; padding: 30px 0 6px; }
+    .hub-head .big { font-size: 52px; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,.15)); }
+    .hub-head h1 { margin: 8px 0 4px; font-size: 30px; font-weight: 900; letter-spacing: 1px; }
+    .hub-head p { margin: 0; color: var(--ink-soft); font-weight: 700; font-size: 14px; }
+
+    .hub-sub { font-size: 14px; font-weight: 800; color: var(--ink-soft); margin: 26px 4px 10px; letter-spacing: .5px; }
+
+    .hub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+
+    a.island {
+      display: flex; flex-direction: column; gap: 6px;
+      text-decoration: none; color: var(--ink);
+      background: var(--card); border-radius: var(--radius);
+      border: 3px solid var(--ac, var(--mint));
+      box-shadow: var(--shadow); padding: 18px 18px 16px;
+      transition: transform .12s ease; position: relative; overflow: hidden;
+    }
+    a.island:hover { transform: translateY(-3px); }
+    a.island .isl-emoji { font-size: 38px; line-height: 1; }
+    a.island .isl-name { font-size: 20px; font-weight: 900; margin-top: 4px; }
+    a.island .isl-desc { font-size: 13px; font-weight: 700; color: var(--ink-soft); line-height: 1.5; }
+    a.island .isl-go {
+      margin-top: 8px; align-self: flex-start;
+      font-size: 13px; font-weight: 800; color: #fff;
+      background: var(--ac, var(--mint)); border-radius: 999px; padding: 5px 14px;
+    }
+
+    .unit-quick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .unit-quick a {
+      font-size: 12px; font-weight: 800; text-decoration: none; color: var(--ink);
+      background: rgba(0,0,0,.045); border-radius: 999px; padding: 4px 10px;
+    }
+    .unit-quick a:hover { background: var(--ac, var(--mint)); color: #fff; }
+
+    .hub-foot { text-align: center; padding: 30px 16px 0; font-size: 13px; font-weight: 800; color: var(--ink-soft); }
+
+    @media (max-width: 480px) {
+      .hub-head h1 { font-size: 24px; }
+      .hub-head .big { font-size: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="hub-main">
+
+    <div class="hub-head">
+      <span class="big">🏝️</span>
+      <h1>英语学习群岛</h1>
+      <p>英语 · 语文 · 历史 · 一站登陆</p>
+    </div>
+
+    <div class="hub-sub">🔤 英语</div>
+    <div class="hub-grid">
+      <a class="island" style="--ac: var(--mint)" href="u1.html">
+        <span class="isl-emoji">🏝️</span>
+        <span class="isl-name">词汇冒险岛</span>
+        <span class="isl-desc">7A U1–U6 词汇：闪卡 · 词性转换 · 选词填空 · 拼写 · 听写 · 错题本</span>
+        <div class="unit-quick">
+          <a href="u1.html">U1</a><a href="u2.html">U2</a><a href="u3.html">List</a>
+          <a href="u4.html">U3</a><a href="u5.html">U4</a><a href="u6.html">U5</a><a href="u7.html">U6</a>
+        </div>
+        <span class="isl-go">进入 →</span>
+      </a>
+
+      <a class="island" style="--ac: var(--sky)" href="grammar.html">
+        <span class="isl-emoji">🧭</span>
+        <span class="isl-name">语法冒险岛</span>
+        <span class="isl-desc">6A · 6B · 7A 三分栏，21 个语法点：先学后练 · 阅读简答 · 错题本</span>
+        <span class="isl-go">进入 →</span>
+      </a>
+
+      <a class="island" style="--ac: var(--sunny)" href="exam.html">
+        <span class="isl-emoji">🎯</span>
+        <span class="isl-name">考纲词汇岛</span>
+        <span class="isl-desc">上海中考 2,061 条考纲词汇：每日打卡 · 艾宾浩斯复习 · A–Z 浏览</span>
+        <span class="isl-go">进入 →</span>
+      </a>
+    </div>
+
+    <div class="hub-sub">📖 语文</div>
+    <div class="hub-grid">
+      <a class="island" style="--ac: var(--coral)" href="zhs.html">
+        <span class="isl-emoji">🌸</span>
+        <span class="isl-name">朝花岛</span>
+        <span class="isl-desc">《朝花夕拾》整本必读：十篇考点 · 人物卡 · 答题模板 · 温情批判二分类</span>
+        <span class="isl-go">进入 →</span>
+      </a>
+    </div>
+
+    <div class="hub-sub">🏛️ 历史 · 档案</div>
+    <div class="hub-grid">
+      <a class="island" style="--ac: var(--purple)" href="history.html">
+        <span class="isl-emoji">🏛️</span>
+        <span class="isl-name">历史岛</span>
+        <span class="isl-desc">中国历史七上（2024 新版）：时间轴 · 时空地图 · 课本 · 因果排序</span>
+        <span class="isl-go">进入 →</span>
+      </a>
+
+    </div>
+
+    <div class="hub-foot">每个岛右上角都有 🏠 按钮，随时回到这里 🌟</div>
+      <div class="hub-foot" style="padding-top:22px;line-height:1.7">
+      🌐 这是海外镜像站（只读）· 学习进度只保存在本机浏览器 · 需要云端同步请用主站
+    </div>
+  </main>
+</body>
+</html>

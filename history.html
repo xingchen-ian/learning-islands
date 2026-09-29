@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>历史岛 · 中国历史七上</title>
+<style>
+:root{
+  --paper:#FBF8F1; --card:#FFFFFF;
+  --ink:#2A2723; --ink2:#6E685C; --ink3:#A39B8C;
+  --line:#E8E0D0; --line2:#F2ECE0;
+  --zhu:#A8452B; --zhu-bg:#FBEEEA;
+  --bamboo:#3F6B52; --bamboo-bg:#EAF1ED;
+  --gold:#B08A3E; --gold-bg:#F8F1E2;
+  --radius:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  color:var(--ink); background:var(--paper);
+  font-size:16px; line-height:1.65;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 60px;}
+
+/* ── 顶栏 ── */
+header{
+  background:linear-gradient(180deg,#FDFBF6,var(--paper));
+  border-bottom:1px solid var(--line);
+  padding:18px 0 12px; margin-bottom:8px;
+}
+.htop{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+h1{font-size:22px;margin:0;font-weight:600;letter-spacing:1px;}
+.sub{font-size:13px;color:var(--ink2);}
+.sync{font-size:12px;color:var(--ink3);margin-left:auto;}
+.sync b{color:var(--bamboo);font-weight:500;}
+.home{font-size:13px;color:var(--ink2);text-decoration:none;background:var(--card);
+  border:1px solid var(--line);border-radius:20px;padding:5px 13px;}
+.home:hover{border-color:var(--ink3);color:var(--ink);}
+
+/* ── 主导航 ── */
+nav{display:flex;gap:6px;margin:14px 0 18px;background:var(--card);
+  padding:5px;border-radius:var(--radius);border:1px solid var(--line);}
+nav button{
+  flex:1;border:0;background:transparent;color:var(--ink2);
+  font-size:15px;font-family:inherit;padding:10px 4px;border-radius:10px;cursor:pointer;
+}
+nav button.on{background:var(--zhu);color:#fff;font-weight:500;}
+nav .badge{display:inline-block;background:var(--zhu-bg);color:var(--zhu);
+  border-radius:9px;padding:0 6px;font-size:12px;margin-left:4px;}
+nav button.on .badge{background:rgba(255,255,255,.25);color:#fff;}
+
+/* ── 通用 ── */
+.view{display:none;} .view.on{display:block;}
+.card{background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;}
+h2{font-size:17px;margin:0 0 12px;font-weight:600;}
+h3{font-size:15px;margin:16px 0 8px;font-weight:600;color:var(--zhu);}
+.muted{color:var(--ink2);font-size:14px;}
+.chip{display:inline-block;border:1px solid var(--line);background:var(--card);
+  border-radius:20px;padding:6px 14px;font-size:14px;cursor:pointer;margin:0 6px 8px 0;color:var(--ink2);}
+.chip.on{background:var(--bamboo);border-color:var(--bamboo);color:#fff;}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);
+  border-radius:10px;padding:10px 18px;font-size:15px;font-family:inherit;cursor:pointer;}
+.btn.pri{background:var(--zhu);border-color:var(--zhu);color:#fff;}
+.btn:disabled{opacity:.4;cursor:default;}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+
+/* ── 时间轴 ── */
+.uhead{display:flex;align-items:center;gap:10px;margin:20px 0 10px;}
+.ubar{width:4px;height:22px;border-radius:2px;background:var(--zhu);}
+.uname{font-size:15px;font-weight:600;}
+.urange{font-size:12px;color:var(--ink3);}
+.ev{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--line2);cursor:pointer;align-items:baseline;}
+.ev:last-child{border-bottom:0;}
+.evy{flex:0 0 96px;font-size:13px;color:var(--gold);font-variant-numeric:tabular-nums;}
+.evt{flex:1;font-size:15px;}
+.evl{font-size:12px;color:var(--ink3);flex:0 0 auto;}
+
+/* ── 课本 ── */
+.unit{border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:10px;background:var(--card);overflow:hidden;}
+.uhead2{padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;}
+.uhead2 .t{font-weight:600;font-size:15px;flex:1;}
+.uhead2 .r{font-size:12px;color:var(--ink3);}
+.ulist{border-top:1px solid var(--line2);display:none;}
+.unit.open .ulist{display:block;}
+.lsn{padding:12px 16px;border-bottom:1px solid var(--line2);cursor:pointer;
+  display:flex;align-items:center;gap:10px;}
+.lsn:last-child{border-bottom:0;}
+.lsn .no{flex:0 0 34px;height:34px;border-radius:9px;background:var(--gold-bg);
+  color:var(--gold);display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:600;}
+.lsn.done .no{background:var(--bamboo-bg);color:var(--bamboo);}
+.lsn .tt{flex:1;font-size:15px;}
+.lsn .old{font-size:12px;color:var(--ink3);}
+
+/* 课文详情 */
+.det{position:fixed;inset:0;background:rgba(42,39,35,.45);z-index:50;
+  display:none;align-items:flex-end;justify-content:center;}
+.det.on{display:flex;}
+.sheet{background:var(--paper);width:100%;max-width:900px;max-height:92vh;
+  border-radius:18px 18px 0 0;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:0 0 40px;}
+.sheet-hd{position:sticky;top:0;background:var(--paper);padding:16px 18px 12px;
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;z-index:2;}
+.sheet-hd .t{font-size:18px;font-weight:600;flex:1;}
+.sheet-bd{padding:6px 18px 0;}
+.std{background:var(--gold-bg);border-left:3px solid var(--gold);
+  border-radius:0 8px 8px 0;padding:10px 14px;font-size:14px;margin:14px 0;color:#6B5626;}
+.sec{margin:18px 0;}
+.sec-h{font-size:15px;font-weight:600;color:var(--zhu);margin-bottom:8px;
+  padding-bottom:6px;border-bottom:1px solid var(--line2);}
+.it{display:flex;gap:10px;padding:7px 0;font-size:15px;align-items:baseline;}
+.it .k{flex:0 0 88px;color:var(--ink2);font-size:14px;}
+.it .v{flex:1;}
+.star{background:var(--zhu-bg);border-radius:10px;padding:10px 14px;
+  font-size:14.5px;margin:8px 0;color:#7A3220;}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0;
+  background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+th{background:var(--gold-bg);color:#6B5626;text-align:left;padding:8px 10px;
+  font-weight:600;font-size:13px;}
+td{padding:8px 10px;border-top:1px solid var(--line2);vertical-align:top;}
+.chain{background:var(--bamboo-bg);border-radius:10px;padding:12px 14px;margin:10px 0;}
+.chain .ct{font-weight:600;font-size:14px;color:var(--bamboo);margin-bottom:8px;}
+.chain ol{margin:0;padding-left:22px;font-size:14.5px;}
+.chain li{margin:4px 0;}
+.add{background:#F3F7FA;border-left:3px solid #4A7BA7;border-radius:0 8px 8px 0;
+  padding:10px 14px;margin:14px 0;}
+.add .at{font-weight:600;font-size:14px;color:#35638A;margin-bottom:6px;}
+.add .asrc{font-size:12px;color:var(--ink3);margin-top:8px;}
+
+/* ── 练习 ── */
+.qbox{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 18px;margin-bottom:12px;min-height:210px;display:flex;
+  flex-direction:column;justify-content:center;}
+.qlabel{font-size:13px;color:var(--gold);margin-bottom:8px;}
+.qtext{font-size:18px;line-height:1.7;margin-bottom:16px;}
+.qtext .blank{display:inline-block;min-width:110px;border-bottom:2px solid var(--zhu);
+  text-align:center;color:var(--zhu);}
+.ans{font-size:17px;color:var(--bamboo);margin-top:10px;display:none;}
+.ans.on{display:block;}
+.opts{display:grid;gap:8px;margin-top:6px;}
+.opt{border:1px solid var(--line);background:var(--card);border-radius:10px;
+  padding:12px 14px;font-size:15px;cursor:pointer;text-align:left;font-family:inherit;color:var(--ink);}
+.opt:hover{border-color:var(--ink3);}
+.opt.right{background:var(--bamboo-bg);border-color:var(--bamboo);color:var(--bamboo);}
+.opt.wrong{background:var(--zhu-bg);border-color:var(--zhu);color:var(--zhu);}
+.opt:disabled{cursor:default;}
+.prog{font-size:13px;color:var(--ink2);margin-bottom:10px;display:flex;
+  justify-content:space-between;}
+.pick{display:grid;gap:8px;}
+.pick .p{border:1px solid var(--line);background:var(--card);border-radius:10px;
+  padding:12px 14px;font-size:15px;cursor:pointer;display:flex;gap:10px;align-items:baseline;}
+.pick .p .n{flex:0 0 24px;height:24px;border-radius:6px;background:var(--gold-bg);
+  color:var(--gold);font-size:13px;display:flex;align-items:center;justify-content:center;}
+.pick .p.sel{background:var(--bamboo-bg);border-color:var(--bamboo);}
+.pick .p.sel .n{background:var(--bamboo);color:#fff;}
+.pick .p.ok{background:var(--bamboo-bg);border-color:var(--bamboo);}
+.pick .p.bad{background:var(--zhu-bg);border-color:var(--zhu);}
+.empty{text-align:center;color:var(--ink3);padding:50px 20px;font-size:15px;}
+.close{border:0;background:var(--line2);color:var(--ink2);border-radius:50%;
+  width:30px;height:30px;font-size:17px;cursor:pointer;flex:0 0 auto;}
+@media(max-width:520px){
+  .evy{flex:0 0 78px;font-size:12px;}
+  .it{flex-direction:column;gap:2px;}
+  .it .k{flex:none;}
+  h1{font-size:20px;}
+}
+
+/* ── 时空地图 ── */
+#timeMode{margin-bottom:12px;}
+.mapbox{
+  position:relative; background:#FCFBF6;
+  border:1px solid var(--line); border-radius:var(--radius);
+  overflow:hidden; margin-bottom:12px;
+}
+#mapSvg{display:block; width:100%; height:auto; touch-action:none; user-select:none;}
+.mapctl{
+  position:absolute; right:8px; bottom:8px; display:flex; align-items:center; gap:2px;
+  background:rgba(255,255,255,.92); border:1px solid var(--line);
+  border-radius:8px; padding:2px 4px;
+}
+.mapctl button{
+  border:none; background:transparent; color:var(--ink2);
+  font-size:15px; line-height:1; padding:5px 7px; border-radius:6px; cursor:pointer;
+  font-family:inherit;
+}
+.mapctl button:active{background:var(--line2);}
+.mapctl span{font-size:11px; color:var(--ink3); min-width:30px; text-align:center;}
+#mZoomReset{font-size:11px !important; padding:5px 6px !important;}
+
+.mhead{display:flex; align-items:center; gap:10px; margin:12px 0 6px;}
+.mplay{
+  flex:none; width:32px; height:32px; border-radius:50%;
+  border:1px solid var(--line); background:var(--card); color:var(--zhu);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.mplay.on{background:var(--zhu); border-color:var(--zhu); color:#fff;}
+.myear{font-size:17px; font-weight:500; color:var(--ink);}
+.mseg{font-size:12px; color:var(--ink3);}
+.mslider{width:100%; margin:6px 0 2px; accent-color:var(--zhu);}
+.mcount{display:flex; justify-content:space-between; font-size:12px; color:var(--ink3);}
+
+#mapScenes{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-bottom:12px;}
+.sbtn{
+  text-align:left; padding:9px 11px; border-radius:10px;
+  border:1px solid var(--line); background:var(--card); cursor:pointer;
+  font-family:inherit; display:flex; flex-direction:column; gap:2px;
+}
+.sbtn.on{border-color:var(--zhu); background:var(--zhu-bg);}
+.sbtn-n{font-size:13px; font-weight:500; color:var(--ink);}
+.sbtn.on .sbtn-n{color:var(--zhu);}
+.sbtn-d{font-size:11px; color:var(--ink3); line-height:1.4;}
+
+.mcard{
+  background:var(--card); border:1px solid var(--line);
+  border-radius:var(--radius); padding:14px 16px; margin-top:12px;
+}
+.mcard-h{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;}
+.mcard-t{font-size:15px; font-weight:500; color:var(--ink);}
+.mtag{
+  font-size:11px; color:var(--gold); background:var(--gold-bg);
+  padding:1px 7px; border-radius:5px;
+}
+.mcard-s{display:flex; gap:10px; flex-wrap:wrap; font-size:12px; color:var(--ink3); margin-bottom:10px;}
+.mcard-b{display:flex; flex-direction:column; gap:6px;}
+.mit{display:flex; gap:8px; font-size:13.5px; line-height:1.6;}
+.mit .k{flex:none; width:64px; color:var(--ink3); font-size:12.5px; padding-top:1px;}
+.mit .v{flex:1; color:var(--ink2);}
+
+.minsight{
+  background:var(--gold-bg); border-radius:10px; padding:10px 12px; margin:10px 0;
+}
+.mlabel{
+  display:block; font-size:11px; color:var(--gold); font-weight:500;
+  margin-bottom:3px; letter-spacing:.03em;
+}
+.minsight>div{font-size:13px; color:var(--ink2); line-height:1.65;}
+.scenelist{display:flex; flex-direction:column; gap:4px; margin-top:12px;}
+.sitem{display:flex; align-items:center; gap:8px; padding:7px 10px; border-radius:8px; background:var(--card); border:1px solid var(--line2); cursor:pointer;}
+.sitem:hover{background:var(--line2);}
+.snum{width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  background:var(--zhu-bg); color:var(--zhu); font-size:11px; font-weight:500;}
+.sname{flex:1; font-size:13px; color:var(--ink);}
+.syear{flex:none; font-size:12px; color:var(--ink3);}
+
+.mgitem{
+  display:flex; gap:10px; align-items:baseline; padding:8px 2px;
+  border-bottom:1px solid var(--line2); cursor:pointer;
+}
+.mgitem:last-child{border-bottom:none;}
+.mgi-y{flex:none; font-size:12px; color:var(--ink3); width:82px;}
+.mgi-t{flex:1; font-size:13.5px; color:var(--ink);}
+
+.msrc{font-size:11px; color:var(--ink3); line-height:1.7; margin-top:14px; padding-top:12px; border-top:1px solid var(--line2);}
+.msrc b{color:var(--ink2); font-weight:500;}
+
+@keyframes mpulse{0%{opacity:.5;transform:scale(.6)}100%{opacity:0;transform:scale(2.2)}}
+.pulse{transform-box:fill-box; transform-origin:center; animation:mpulse 1.8s ease-out infinite;}
+@keyframes mpop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+.pop{transform-box:fill-box; transform-origin:center; animation:mpop .35s cubic-bezier(.2,1.3,.5,1) both;}
+.mdot text{pointer-events:none;}
+@media (prefers-reduced-motion:reduce){.pulse,.pop{animation:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="htop">
+      <h1>历史岛</h1>
+      <span class="sub" id="subTitle">中国历史 七年级上册</span>
+      <span class="sync" id="syncState">进度：本机</span>
+      <a class="home" href="index.html">🏠 主站</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav>
+    <button class="on" data-v="time">时间轴</button>
+    <button data-v="book">课本</button>
+    <button data-v="drill">练习</button>
+    <button data-v="wrong">错题<span class="badge" id="wrongN">0</span></button>
+  </nav>
+
+  <!-- 时间轴 -->
+  <section class="view on" id="v-time">
+    <div class="row" id="timeMode">
+      <button class="chip on" data-m="list">列表</button>
+      <button class="chip" data-m="map">时空地图</button>
+    </div>
+
+    <div id="timeListView">
+      <div class="row" id="timeFilter"></div>
+      <div id="timeList"></div>
+    </div>
+
+    <div id="timeMapView" style="display:none">
+      <div id="mapScenes"></div>
+      <div class="mapbox">
+        <svg id="mapSvg" viewBox="0 0 600 366" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="mapctl">
+          <button id="mZoomOut" aria-label="缩小">−</button>
+          <span id="mZoom">1.0×</span>
+          <button id="mZoomIn" aria-label="放大">+</button>
+          <button id="mZoomReset">重置</button>
+        </div>
+      </div>
+      <div id="mapBar"></div>
+      <div id="mapCard"></div>
+      <div class="msrc"></div>
+    </div>
+  </section>
+
+  <!-- 课本 -->
+  <section class="view" id="v-book">
+    <div id="bookList"></div>
+  </section>
+
+  <!-- 练习 -->
+  <section class="view" id="v-drill">
+    <div class="row" style="margin-bottom:12px;">
+      <button class="chip on" data-d="card">闪卡</button>
+      <button class="chip" data-d="fill">挖空填空</button>
+      <button class="chip" data-d="chain">因果排序</button>
+    </div>
+    <div class="row" style="margin-bottom:12px;" id="drillScope"></div>
+    <div id="drillBody"></div>
+  </section>
+
+  <!-- 错题 -->
+  <section class="view" id="v-wrong">
+    <div id="wrongBody"></div>
+  </section>
+</div>
+
+<!-- 课文详情 -->
+<div class="det" id="det">
+  <div class="sheet">
+    <div class="sheet-hd">
+      <span class="t" id="detT"></span>
+      <button class="btn" id="detDone">标记已学</button>
+      <button class="close" id="detClose">✕</button>
+    </div>
+    <div class="sheet-bd" id="detB"></div>
+  </div>
+</div>
+
+<script src="https://static.cloudbase.net/cloudbase-js-sdk/2.31.0/cloudbase.full.js"></script>
+<script src="config.js"></script>
+<script src="cloud.js"></script>
+<script src="history-data.js"></script>
+<script src="map-data.js"></script>
+<script src="history.js"></script>
+<script src="map.js"></script>
+</body>
+</html>

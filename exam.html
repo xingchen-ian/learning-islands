@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>考纲词汇岛 · 上海中考英语</title>
+  <link rel="stylesheet" href="styles.css?v=20260929a">
+  <link rel="stylesheet" href="exam.css">
+  <link rel="preconnect" href="https://static.cloudbase.net" crossorigin>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-emoji">🎯</span>
+      <div class="brand-text">
+        <h1>考纲词汇岛</h1>
+        <p id="examSubtitle">上海中考英语 · 考纲词汇打卡</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="progress-chip">
+        <span class="star">⭐</span>
+        <span id="examMastery">已掌握 0 / 0</span>
+      </div>
+      <a class="home-btn" href="index.html" title="返回主站">🏠</a>
+      <button class="voice-pick-btn" id="voicePickBtn" title="选择朗读音色">🎤</button>
+    </div>
+  </header>
+
+  <nav class="unitnav">
+    <a class="unit-btn" href="u1.html">🏝️ 词汇岛</a>
+    <a class="unit-btn" href="grammar.html">🧭 语法岛</a>
+    <a class="unit-btn active" href="exam.html">🎯 考纲岛</a>
+    <a class="unit-btn" href="history.html">📜 历史岛</a>
+    <a class="unit-btn" href="zhs.html">🌸 朝花岛</a>
+  </nav>
+
+  <div id="cloudBar" class="cloudbar" style="display:none"></div>
+
+  <nav class="modenav" id="modeNav">
+    <button class="mode-btn active" data-mode="daily">🗓️<span>今日打卡</span></button>
+    <button class="mode-btn" data-mode="cards">🃏<span>闪卡</span></button>
+    <button class="mode-btn" data-mode="match">🔗<span>选义</span></button>
+    <button class="mode-btn" data-mode="spell">⌨️<span>拼写</span></button>
+    <button class="mode-btn" data-mode="listen">👂<span>听写</span></button>
+    <button class="mode-btn" data-mode="review">🔁<span>复习</span></button>
+    <button class="mode-btn" data-mode="browse">📖<span>词库</span></button>
+    <button class="mode-btn" data-mode="wrong">📒<span>错题本</span></button>
+  </nav>
+
+  <main id="main" class="main"></main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://static.cloudbase.net/cloudbase-js-sdk/2.31.0/cloudbase.full.js"></script>
+  <script src="voice.js"></script>
+  <script src="config.js"></script>
+  <script src="cloud.js"></script>
+  <script src="exam-vocab-data.js?v=20260926b"></script>
+  <script src="exam.js?v=20260926b"></script>
+</body>
+</html>

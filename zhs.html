@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>朝花岛 · 朝花夕拾</title>
+<style>
+:root{
+  --paper:#FBF8F1; --card:#FFFFFF;
+  --ink:#2A2723; --ink2:#6E685C; --ink3:#A39B8C;
+  --line:#E8E0D0; --line2:#F2ECE0;
+  --zhu:#A8452B; --zhu-bg:#FBEEEA;
+  --bamboo:#3F6B52; --bamboo-bg:#EAF1ED;
+  --gold:#B08A3E; --gold-bg:#F8F1E2;
+  --radius:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  color:var(--ink); background:var(--paper);
+  font-size:16px; line-height:1.65;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 60px;}
+
+/* ── 顶栏 ── */
+header{
+  background:linear-gradient(180deg,#FDFBF6,var(--paper));
+  border-bottom:1px solid var(--line);
+  padding:18px 0 12px; margin-bottom:8px;
+}
+.htop{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+h1{font-size:22px;margin:0;font-weight:600;letter-spacing:1px;}
+.sub{font-size:13px;color:var(--ink2);}
+.sync{font-size:12px;color:var(--ink3);margin-left:auto;}
+.sync b{color:var(--bamboo);font-weight:500;}
+.home{font-size:13px;color:var(--ink2);text-decoration:none;background:var(--card);
+  border:1px solid var(--line);border-radius:20px;padding:5px 13px;}
+.home:hover{border-color:var(--ink3);color:var(--ink);}
+
+/* ── 主导航 ── */
+nav{display:flex;gap:6px;margin:14px 0 18px;background:var(--card);
+  padding:5px;border-radius:var(--radius);border:1px solid var(--line);}
+nav button{
+  flex:1;border:0;background:transparent;color:var(--ink2);
+  font-size:15px;font-family:inherit;padding:10px 4px;border-radius:10px;cursor:pointer;
+}
+nav button.on{background:var(--zhu);color:#fff;font-weight:500;}
+nav .badge{display:inline-block;background:var(--zhu-bg);color:var(--zhu);
+  border-radius:9px;padding:0 6px;font-size:12px;margin-left:4px;}
+nav button.on .badge{background:rgba(255,255,255,.25);color:#fff;}
+
+/* ── 通用 ── */
+.view{display:none;} .view.on{display:block;}
+.card{background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;}
+h2{font-size:17px;margin:0 0 12px;font-weight:600;}
+h3{font-size:15px;margin:16px 0 8px;font-weight:600;color:var(--zhu);}
+.muted{color:var(--ink2);font-size:14px;}
+.chip{display:inline-block;border:1px solid var(--line);background:var(--card);
+  border-radius:20px;padding:6px 14px;font-size:14px;cursor:pointer;margin:0 6px 8px 0;color:var(--ink2);}
+.chip.on{background:var(--bamboo);border-color:var(--bamboo);color:#fff;}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);
+  border-radius:10px;padding:10px 18px;font-size:15px;font-family:inherit;cursor:pointer;}
+.btn.pri{background:var(--zhu);border-color:var(--zhu);color:#fff;}
+.btn.green{background:var(--bamboo);border-color:var(--bamboo);color:#fff;}
+.btn:disabled{opacity:.4;cursor:default;}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+
+/* ── 篇目 ── */
+.unit{border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:10px;background:var(--card);overflow:hidden;}
+.uhead2{padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;}
+.uhead2 .t{font-weight:600;font-size:15px;flex:1;}
+.uhead2 .r{font-size:12px;color:var(--ink3);}
+.ulist{border-top:1px solid var(--line2);display:none;}
+.unit.open .ulist{display:block;padding:12px 16px 16px;}
+.keywrap{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px;}
+.key{font-size:12px;background:var(--gold-bg);color:#8A6B2E;
+  border-radius:6px;padding:2px 8px;}
+.kv{display:flex;gap:10px;padding:6px 0;font-size:14.5px;align-items:baseline;}
+.kv .k{flex:0 0 76px;color:var(--ink2);font-size:13.5px;}
+.kv .v{flex:1;}
+.tagzhu{font-size:11px;border-radius:5px;padding:1px 7px;flex:0 0 auto;}
+.tagzhu.wq{background:var(--bamboo-bg);color:var(--bamboo);}
+.tagzhu.pp{background:var(--zhu-bg);color:var(--zhu);}
+.tagzhu.sx{background:var(--gold-bg);color:#8A6B2E;}
+.star{background:var(--zhu-bg);border-radius:10px;padding:10px 14px;
+  font-size:14px;margin:10px 0 0;color:#7A3220;}
+.epsl{margin:6px 0 0;padding-left:20px;font-size:14px;color:var(--ink2);}
+.epsl li{margin:3px 0;}
+
+/* ── 考点 ── */
+.pcard{border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--card);padding:14px 16px;margin-bottom:10px;}
+.pcard .hd{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+.pcard .nm{font-size:16px;font-weight:600;}
+.pcard .fm{font-size:12px;color:var(--ink3);}
+.pcard .bad{color:var(--zhu);}
+.qu{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+.qu span{font-size:12.5px;background:var(--bamboo-bg);color:var(--bamboo);
+  border-radius:6px;padding:2px 9px;}
+.senti{background:var(--gold-bg);border-radius:8px;padding:7px 11px;
+  font-size:13px;color:#6B5626;margin-top:8px;}
+.tmpl .f{font-size:14.5px;margin:6px 0;}
+.tmpl .eg{background:var(--line2);border-radius:8px;padding:9px 12px;
+  font-size:13.5px;color:var(--ink2);}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0;
+  background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+th{background:var(--gold-bg);color:#6B5626;text-align:left;padding:8px 10px;
+  font-weight:600;font-size:13px;}
+td{padding:8px 10px;border-top:1px solid var(--line2);vertical-align:top;}
+
+/* ── 练习 ── */
+.qbox{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 18px;margin-bottom:12px;min-height:200px;display:flex;
+  flex-direction:column;justify-content:center;}
+.qlabel{font-size:13px;color:var(--gold);margin-bottom:8px;}
+.qtext{font-size:17px;line-height:1.75;margin-bottom:16px;}
+.ans{font-size:15.5px;color:var(--bamboo);margin-top:10px;display:none;line-height:1.7;}
+.ans.on{display:block;}
+.ans.w{color:var(--zhu);}
+.opts{display:grid;gap:8px;margin-top:6px;}
+.opt{border:1px solid var(--line);background:var(--card);border-radius:10px;
+  padding:12px 14px;font-size:15px;cursor:pointer;text-align:left;font-family:inherit;color:var(--ink);line-height:1.5;}
+.opt:hover{border-color:var(--ink3);}
+.opt.right{background:var(--bamboo-bg);border-color:var(--bamboo);color:var(--bamboo);}
+.opt.wrong{background:var(--zhu-bg);border-color:var(--zhu);color:var(--zhu);}
+.opt:disabled{cursor:default;}
+.prog{font-size:13px;color:var(--ink2);margin-bottom:10px;display:flex;
+  justify-content:space-between;}
+.sense2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
+.sense2 button{border:1px solid var(--line);background:var(--card);border-radius:12px;
+  padding:16px 10px;font-size:16px;font-family:inherit;cursor:pointer;color:var(--ink);}
+.sense2 button.wq{background:var(--bamboo-bg);border-color:var(--bamboo);color:var(--bamboo);}
+.sense2 button.pp{background:var(--zhu-bg);border-color:var(--zhu);color:var(--zhu);}
+.sense2 button.dim{opacity:.45;}
+.sense2 button:disabled{cursor:default;}
+.empty{text-align:center;color:var(--ink3);padding:50px 20px;font-size:15px;}
+.src{font-size:11.5px;color:var(--ink3);line-height:1.7;margin-top:18px;
+  padding-top:12px;border-top:1px solid var(--line2);}
+
+@media(max-width:520px){
+  h1{font-size:20px;}
+  .kv{flex-direction:column;gap:2px;}
+  .kv .k{flex:none;}
+  .sense2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="htop">
+      <h1>🌸 朝花岛</h1>
+      <span class="sub" id="subTitle">《朝花夕拾》整本书阅读</span>
+      <span class="sync" id="syncState">进度：本机</span>
+      <a class="home" href="index.html">🏠 主站</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav>
+    <button class="on" data-v="pian">十篇</button>
+    <button data-v="kao">人物·考点</button>
+    <button data-v="drill">练习</button>
+    <button data-v="wrong">错题<span class="badge" id="wrongN">0</span></button>
+  </nav>
+
+  <!-- 十篇 -->
+  <section class="view on" id="v-pian">
+    <div id="pianList"></div>
+  </section>
+
+  <!-- 人物·考点 -->
+  <section class="view" id="v-kao">
+    <div class="row" style="margin-bottom:12px;">
+      <button class="chip on" data-k="p">人物</button>
+      <button class="chip" data-k="c">文学常识</button>
+      <button class="chip" data-k="t">答题模板</button>
+    </div>
+    <div id="kaoBody"></div>
+  </section>
+
+  <!-- 练习 -->
+  <section class="view" id="v-drill">
+    <div class="row" style="margin-bottom:12px;">
+      <button class="chip on" data-d="card">闪卡</button>
+      <button class="chip" data-d="quiz">选择题</button>
+      <button class="chip" data-d="sense">温情·批判</button>
+    </div>
+    <div id="drillBody"></div>
+  </section>
+
+  <!-- 错题 -->
+  <section class="view" id="v-wrong">
+    <div id="wrongBody"></div>
+  </section>
+
+  <div class="src" id="srcNote"></div>
+</div>
+
+<script src="https://static.cloudbase.net/cloudbase-js-sdk/2.31.0/cloudbase.full.js"></script>
+<script src="config.js"></script>
+<script src="cloud.js"></script>
+<script src="zhs-data.js"></script>
+<script src="zhs.js"></script>
+</body>
+</html>

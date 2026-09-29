@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>语法冒险岛 · 7A 暑假语法专项</title>
+  <link rel="stylesheet" href="styles.css?v=20260929a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://static.cloudbase.net" crossorigin>
+</head>
+<body>
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-emoji">🧭</span>
+      <div class="brand-text">
+        <h1 id="gramTitle">语法冒险岛</h1>
+        <p id="gramSubtitle">7A 暑假语法专项 · 先学后练</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="progress-chip" id="progressChip">
+        <span class="star">🏆</span>
+        <span id="gramMastery">已学 0/6 · 已练 0/6 · 掌握 0</span>
+      </div>
+      <a class="home-btn" href="index.html" title="返回主站">🏠</a>
+      <button class="voice-pick-btn" id="voicePickBtn" title="选择朗读音色">🎤</button>
+    </div>
+  </header>
+
+  <!-- 语法点切换 -->
+  <nav class="unitnav" id="gramNav">
+    <a class="unit-btn" href="u1.html" style="flex:0 0 auto">🏝️ 词汇冒险岛</a>
+    <a class="unit-btn" href="exam.html" style="flex:0 0 auto">🎯 考纲岛</a>
+  </nav>
+
+  <!-- 模式切换：学习 / 练习 / 错题本 -->
+  <nav class="modenav gram-modenav" id="gramModeNav"></nav>
+
+  <!-- 主内容区 -->
+  <main id="gmain" class="main"></main>
+
+  <!-- 底部激励条 -->
+  <footer class="footer">
+    <span>暑假先攻语法，开学轻松跟上 💪</span>
+  </footer>
+
+  <!-- 反馈气泡 -->
+  <div id="toast" class="toast"></div>
+
+  <script src="voice.js"></script>
+  <script src="config.js"></script>
+  <script src="grammar-data.js?v=20260928a"></script>
+  <script src="grammar.js?v=20260927b"></script>
+</body>
+</html>
