@@ -32,6 +32,13 @@ function gShuffle(arr) {
   return a;
 }
 function gNorm(s) { return (s || '').toString().toLowerCase().replace(/\s+/g, ' ').trim(); }
+/* 要点自检用：归一化撇号与空格，孩子手打 doesn´t / doesn’t 也能命中 */
+function gKeyNorm(s) {
+  return (s || '').toString().toLowerCase()
+    .replace(/[\u2018\u2019\u02bc\u0060\u00b4]/g, "'")
+    .replace(/\s+/g, ' ').trim();
+}
+function gKeyHit(val, key) { return gKeyNorm(val).includes(gKeyNorm(key)); }
 function gToast(msg) {
   const t = $g('#toast'); if (!t) return;
   t.textContent = msg; t.classList.add('show');
@@ -47,6 +54,28 @@ function gRichPrompt(p) {
   return String(p).split(/__(.+?)__/).map((seg, i) =>
     i % 2 === 1 ? '<u>' + gEsc(seg) + '</u>' : gEsc(seg)
   ).join('');
+}
+
+/* 写问句题型（type:'ask'）的三种子形态标签 */
+function gAskMeta(kind) {
+  const M = {
+    wh: {
+      label: '看答句，写出问句（对照参考答案，再按要点自检）',
+      tag: '💬 答句',
+      ph: '写出完整的特殊疑问句…'
+    },
+    tag: {
+      label: '写出完整的反意疑问句（写整句或只写尾巴都算）',
+      tag: '💬 陈述句',
+      ph: '写整句，或只写尾巴（如 isn\'t it）…'
+    },
+    rewrite: {
+      label: '对划线部分提问，写出完整问句',
+      tag: '💬 原句（划线部分是提问目标）',
+      ph: '写出完整的问句…'
+    }
+  };
+  return M[kind] || M.wh;
 }
 
 /* ---------- 进度 ---------- */
@@ -307,7 +336,7 @@ function renderQuizIntro() {
       <div class="quiz-meta-item"><b>${mastered}/${total}</b><span>已掌握</span></div>
       <div class="quiz-meta-item"><b>${doneAll ? '🏆' : '🎯'}</b><span>${doneAll ? '已通关' : '待挑战'}</span></div>
     </div>
-    <div class="gram-quiz-tip">题型覆盖：选择题（语法选择）+ 填空题（写答案）+ 简答题（写完整答句并自评），对标考试语法、词汇与阅读简答部分。</div>`;
+    <div class="gram-quiz-tip">题型覆盖：选择题（语法选择）+ 填空题（写答案）+ 简答题（写完整答句并自评）+ 写问句（看答句反推问句并自评），对标考试的语法选择、词形变化、句型转换与阅读简答部分。</div>`;
   wrap.appendChild(card);
 
   const start = document.createElement('button');
@@ -348,8 +377,16 @@ function renderQuizQuestion(g, q) {
 
   const card = document.createElement('div');
   card.className = 'q-card';
-  card.innerHTML = `<div class="q-prompt">${q.type === 'choice' ? '选择最恰当的答案' : q.type === 'short' ? '读短文，用英文回答（对照参考答句与要点自评）' : '根据题意填空'}</div>
-    <div class="q-big" style="font-size:21px;line-height:1.6">${gRichPrompt(q.prompt)}</div>`;
+  const askMeta = q.type === 'ask' ? (gAskMeta(q.kind)) : null;
+  const instr = q.type === 'choice' ? '选择最恰当的答案'
+    : q.type === 'short' ? '读短文，用英文回答（对照参考答句与要点自评）'
+    : askMeta ? askMeta.label
+    : '根据题意填空';
+  card.innerHTML = `<div class="q-prompt">${instr}</div>` + (
+    askMeta
+      ? `<div class="q-give"><span class="give-tag">${askMeta.tag}</span><div class="give-text">${gRichPrompt(q.prompt)}</div></div>`
+      : `<div class="q-big" style="font-size:21px;line-height:1.6">${gRichPrompt(q.prompt)}</div>`
+  );
   wrap.appendChild(card);
 
   function finish(correct, your) {
@@ -431,9 +468,8 @@ function renderQuizQuestion(g, q) {
       const box = document.createElement('div'); box.className = 'short-ref';
       box.innerHTML = `<div class="ref-line"><b>参考答案：</b><span class="fb-en">${gEsc(q.answer)}</span></div>`;
       if (q.keys && q.keys.length) {
-        const low = val.toLowerCase();
         const items = q.keys.map(k => {
-          const hit = low.includes(k.toLowerCase());
+          const hit = gKeyHit(val, k);
           return `<span class="${hit ? 'key-hit' : 'key-miss'}">${hit ? '✓' : '✗'} ${gEsc(k)}</span>`;
         }).join('');
         box.innerHTML += `<div class="key-row"><b>要点自检：</b>${items}</div>`;
@@ -448,6 +484,65 @@ function renderQuizQuestion(g, q) {
       const act = ok => {
         if (card.dataset.done) return; card.dataset.done = '1';
         yes.disabled = no.disabled = show.disabled = true;
+        finish(ok, val || '（空）');
+      };
+      yes.onclick = () => act(true);
+      no.onclick = () => act(false);
+      self.appendChild(yes); self.appendChild(no);
+      card.appendChild(self);
+    };
+  } else if (q.type === 'ask') {
+    // 输出型：看答句 / 陈述句 / 划线部分 → 自己写出问句（对照参考答案 + 要点自检 + 自评）
+    const meta = gAskMeta(q.kind);
+    const ta = document.createElement('textarea');
+    ta.className = 'text-input short-input';
+    ta.rows = 2;
+    ta.placeholder = meta.ph;
+    card.appendChild(ta);
+
+    const rowS = document.createElement('div'); rowS.className = 'input-row';
+    let hintBtn = null;
+    if (q.hint) {
+      hintBtn = document.createElement('button');
+      hintBtn.className = 'btn ghost small'; hintBtn.textContent = '💡 提示';
+      rowS.appendChild(hintBtn);
+    }
+    const show = document.createElement('button'); show.className = 'btn'; show.textContent = '🔍 对照参考答案';
+    rowS.appendChild(show);
+    card.appendChild(rowS);
+    setTimeout(() => ta.focus(), 50);
+
+    if (hintBtn) hintBtn.onclick = () => {
+      if (card.dataset.hinted) return; card.dataset.hinted = '1';
+      hintBtn.disabled = true;
+      const h = document.createElement('div'); h.className = 'q-hint';
+      h.innerHTML = `<b>💡 思路提示：</b>${gEsc(q.hint)}`;
+      card.insertBefore(h, rowS);
+    };
+
+    show.onclick = () => {
+      if (card.dataset.revealed) return; card.dataset.revealed = '1';
+      const val = ta.value.trim();
+      const box = document.createElement('div'); box.className = 'short-ref';
+      box.innerHTML = `<div class="ref-line"><b>参考答案：</b><span class="fb-en">${gEsc(q.answer)}</span></div>`;
+      if (q.keys && q.keys.length) {
+        const items = q.keys.map(k => {
+          const hit = gKeyHit(val, k);
+          return `<span class="${hit ? 'key-hit' : 'key-miss'}">${hit ? '✓' : '✗'} ${gEsc(k)}</span>`;
+        }).join('');
+        box.innerHTML += `<div class="key-row"><b>要点自检：</b>${items}</div>`;
+      }
+      if (q.explain) box.innerHTML += `<div class="gram-explain">📝 ${gEsc(q.explain)}</div>`;
+      card.appendChild(box);
+
+      const self = document.createElement('div');
+      self.className = 'input-row'; self.style.marginTop = '10px';
+      const yes = document.createElement('button'); yes.className = 'btn'; yes.textContent = '✅ 我答对了';
+      const no = document.createElement('button'); no.className = 'btn ghost small'; no.textContent = '❌ 我答错了';
+      const act = ok => {
+        if (card.dataset.done) return; card.dataset.done = '1';
+        yes.disabled = no.disabled = show.disabled = true;
+        if (hintBtn) hintBtn.disabled = true;
         finish(ok, val || '（空）');
       };
       yes.onclick = () => act(true);
@@ -597,7 +692,7 @@ function renderGramWrong() {
     const item = document.createElement('div'); item.className = 'wrong-item';
     item.innerHTML = `
       <div class="wi-word">${gEsc(g.title)} <span class="wi-tag">错 ${w.count} 次</span></div>
-      <div class="wi-meta saved-prompt">${gEsc(q.prompt)}</div>
+      <div class="wi-meta saved-prompt">${q.type === 'ask' ? '💬 看这句写问句：' : ''}${gRichPrompt(q.prompt)}</div>
       <div class="wi-meta">✅ 答案：<b>${gEsc(q.answer)}</b></div>
       <div class="wi-meta">✏️ 你的作答：${gEsc(w.your || '—')}</div>
       ${q.explain ? `<div class="wi-meta" style="color:var(--ink-soft)">📝 ${gEsc(q.explain)}</div>` : ''}`;

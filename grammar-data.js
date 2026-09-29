@@ -1880,6 +1880,132 @@ const GRAMMAR = [
 },
 
 /* ============================================================
+   7A-G-extra 看答句写问句（输出型 · 对话填空 / 句型转换实战）
+============================================================ */
+{
+  id: 'wh-write',
+  grade: '7A',
+  title: '看答句写问句',
+  unit: 'U1 考试实战',
+  emoji: '✍️',
+  color: 'c-coral',
+  summary: '给答句反推问句 —— 对话填空和句型转换的得分关键。五步反推法 + 21 道写句子练习',
+  lessons: [
+    {
+      title: '① 五步反推法（先看答句，再写问句）',
+      points: [
+        '第 1 步：读答句，判断它在回答「什么信息」',
+        '第 2 步：信息类型 → 疑问词（人→Who / 事物→What / 地点→Where / 时间→When / 原因→Why / 方式→How）',
+        '第 3 步：扫时间信号词定时态（last / ago / yesterday → 过去时；usually / every → 现在时）',
+        '第 4 步：按公式组装 —— 疑问词 + 助动词 + 主语 + 动词原形？',
+        '第 5 步：回读一遍，检查「借了 did 之后主要动词有没有还原成原形」'
+      ],
+      examples: [
+        { en: '—— I learned to swim last holiday.  —— What did you learn last holiday?', cn: '第 1 步：答句讲「学到了什么」→ What。第 3 步：last holiday → 借 did。' },
+        { en: '—— Twice a week.  —— How often do you practise?', cn: '答句说的是频率 → How often；日常习惯 → 现在时 do。' }
+      ],
+      tips: ['出题人先写好答案再倒着问问题，你做题就必须倒过来：先看答句。答句是唯一的线索']
+    },
+    {
+      title: '② 疑问词 ← 答句特征 反射表',
+      points: [
+        '人 → Who（作主语时不倒装：Who taught you?）',
+        '事物 / 一件事情 → What',
+        '所属关系 → Whose（Whose bike is it?）',
+        '地点 → Where ｜ 时间点 → When',
+        '原因 → Why（答句常以 Because 开头）',
+        '方式 / 途径 / 感受 → How',
+        '频率 → How often（twice a week / every day）',
+        '时长 → How long（for two hours / three weeks）',
+        '数量 → How many + 可数复数 ｜ How much + 不可数',
+        '有范围里选一个 → Which'
+      ],
+      examples: [
+        { en: '—— Because I wanted to make my parents proud.  —— Why did you keep trying?', cn: 'Because 是 Why 的招牌。' },
+        { en: '—— It took me three weeks.  —— How long did it take you?', cn: 'three weeks 是时长 → How long；人称也要跟着换：me → you。' }
+      ],
+      tips: ['三个最省时间的反射：看到 Because 想 Why；看到 every / twice 想 How often；看到 for + 时间段想 How long']
+    },
+    {
+      title: '③ 时态跟语境，不跟你的中文直觉',
+      points: [
+        '答句动词的时态就是最好的提示：答句用 learned，问句就用 did ... learn',
+        '过去时信号词：last / yesterday / just now / ...ago / in 2024',
+        '现在时信号词：usually / every day / often / always',
+        '借了 did 之后，主要动词必须还原成原形：What did you learn?（不是 learned）',
+        '最易错：聊过去的事却用现在时 —— What makes you succeed?（×）→ What made you succeed?（√）'
+      ],
+      examples: [
+        { en: '—— My strong mind made me succeed.  —— What made you succeed?', cn: '答句用 made → 问句也用 made，不是 makes。' },
+        { en: '—— I usually read for half an hour before bed.  —— How long do you read before bed?', cn: 'usually 说的是日常习惯 → 用 do，不是 did。' }
+      ],
+      tips: ['写完必自查一句：主要动词是原形还是过去式？借了 did 就必须是原形']
+    },
+    {
+      title: '④ 反意疑问句：写尾巴三步',
+      points: [
+        '第 1 步：看主句的动词类型 —— be 动词 / 情态动词 / 普通动词',
+        '第 2 步：前肯后否、前否后肯',
+        '第 3 步：尾巴的主语换成对应代词',
+        'be 动词主句 → 尾巴用 be：It was a brave choice, wasn\'t it?',
+        '情态动词主句 → 尾巴用同一个情态：You can swim, can\'t you?',
+        '普通动词三单 → doesn\'t；一般过去时 → didn\'t',
+        'There be 句型：There are many new things to try, aren\'t there?'
+      ],
+      examples: [
+        { en: 'Sunlight brings us renewable energy, doesn\'t it?', cn: 'brings 是三单 → 借 doesn\'t；主语换成代词 it。' },
+        { en: 'Lucy didn\'t join the club, did she?', cn: '主句否定 → 尾巴用肯定 did she。' }
+      ],
+      tips: ['尾巴永远「继承」主句的动词类型 —— 主句是 was，尾巴不可能用 didn\'t']
+    },
+    {
+      title: '⑤ 对划线部分提问：两步走',
+      points: [
+        '第 1 步：看划线部分「在句子里是什么成分」，据此定疑问词',
+        '划线是宾语（试了什么）→ What did he try?',
+        '划线是时间 → When did ...? ｜ 划线是地点 → Where did ...?',
+        '划线是时长 → How long did it take ...? ｜ 划线是次数 → How many times has he ...?',
+        '第 2 步：划掉之后，剩下部分要变成一般疑问句语序（借 do/does/did，或把 be/助动词提到主语前）',
+        '别忘了借了 did 之后动词还原原形：tried → try'
+      ],
+      examples: [
+        { en: 'Tom tried a renewable energy model last week. → What did Tom try last week?', cn: '划线是宾语 → What；过去时 → 借 did，tried 还原成 try。' },
+        { en: 'He has been to Beijing three times. → How many times has he been to Beijing?', cn: '原句已有助动词 has，直接提到主语前，been 保持过去分词不变。' }
+      ],
+      tips: ['划线题两步走：① 划线部分 → 疑问词 ② 剩下部分 → 一般疑问句语序']
+    }
+  ],
+  questions: [
+    /* ---- 特殊疑问句：看答句写问句（12） ---- */
+    { type: 'ask', kind: 'wh', prompt: 'I learned to swim last holiday.', hint: '答句讲的是「学到了什么」；last holiday 给了时态信号。', answer: 'What did you learn last holiday?', keys: ['what', 'did', 'learn'], explain: '信息类型 = 事物 → What；last holiday → 借 did，learn 还原原形（不能写 learned）。' },
+    { type: 'ask', kind: 'wh', prompt: 'My uncle taught me.', hint: '答句缺的正是「谁」这个主语。', answer: 'Who taught you?', keys: ['who', 'taught'], explain: '问人且作主语 → Who，此时不倒装、不借 did；时态跟答句 → taught。' },
+    { type: 'ask', kind: 'wh', prompt: 'It took me three weeks.', hint: 'three weeks 说的是「花了多久」；人称也要跟着换。', answer: 'How long did it take you?', keys: ['how long', 'did', 'take'], explain: 'three weeks 是时长 → How long；借 did 后 take 还原原形；答句的 me 在问句里换成 you。' },
+    { type: 'ask', kind: 'wh', prompt: 'I go to the club twice a week.', hint: 'twice a week 是频率，而且说的是日常习惯。', answer: 'How often do you go to the club?', keys: ['how often', 'do', 'go'], explain: 'twice a week 是频率 → How often；日常习惯 → 现在时 do，不是 did。' },
+    { type: 'ask', kind: 'wh', prompt: 'Because I wanted to make my parents proud.', hint: '答句是以哪个词开头的？', answer: 'Why did you keep trying?', keys: ['why', 'did', 'keep'], explain: 'Because 答原因 → Why；聊的是过去的事 → 借 did，keep 还原原形。' },
+    { type: 'ask', kind: 'wh', prompt: 'I made the model with my classmates.', hint: '问「人」，而且 make 的搭配里有个介词必须留在句末。', answer: 'Who did you make the model with?', keys: ['who', 'did', 'make', 'with'], explain: 'make sth. with sb. → 介词 with 留在句末，不能丢；借 did 后 make 还原原形。' },
+    { type: 'ask', kind: 'wh', prompt: 'I finished it yesterday afternoon.', hint: 'yesterday afternoon 是时间点。', answer: 'When did you finish it?', keys: ['when', 'did', 'finish'], explain: '时间点 → When；yesterday → 借 did，finish 还原原形。' },
+    { type: 'ask', kind: 'wh', prompt: 'It\'s my cousin\'s bike.', hint: '答句回答的是「谁的」。', answer: 'Whose bike is it?', keys: ['whose', 'bike', 'is'], explain: '所属关系 → Whose；主句有 be 动词，不借 do，直接把 is 提到主语前。' },
+    { type: 'ask', kind: 'wh', prompt: 'I felt nervous at first.', hint: '问的是「感觉怎么样」——用问方式的那个疑问词。', answer: 'How did you feel at first?', keys: ['how', 'did', 'feel'], explain: '问感受 / 方式 → How（不是 What）；答句 felt 是过去式 → 借 did，feel 还原原形。' },
+    { type: 'ask', kind: 'wh', prompt: 'About twenty students joined the club.', hint: 'twenty students 是可数名词复数。', answer: 'How many students joined the club?', keys: ['how many', 'joined'], explain: '可数名词复数数量 → How many；How many students 本身就是主语，所以不倒装、不借 did，动词用 joined。' },
+    { type: 'ask', kind: 'wh', prompt: 'I heard about it from our teacher.', hint: 'from our teacher 说的是「途径」，不是「原因」。', answer: 'How did you hear about it?', keys: ['how', 'did', 'hear'], explain: '途径 → How（这里不是 Why）；heard 是过去式 → 借 did，hear 还原原形。' },
+    { type: 'ask', kind: 'wh', prompt: 'My strong mind and my parents\' encouragement made me succeed.', hint: '答句的主语是「事物」，而且是过去发生的事。', answer: 'What made you succeed?', keys: ['what', 'made'], explain: '事物 → What；What 作主语时不倒装、不借 did，动词跟语境用过去式 made（不是 makes）。' },
+
+    /* ---- 反意疑问句：写出完整句子（5） ---- */
+    { type: 'ask', kind: 'tag', prompt: 'Sunlight brings us renewable energy.', hint: '主句动词 bring 是三单，且是肯定句。', answer: 'Sunlight brings us renewable energy, doesn\'t it?', keys: ['doesn\'t it'], explain: '普通动词三单 brings → 借 doesn\'t；主语换成代词 it；前肯后否。' },
+    { type: 'ask', kind: 'tag', prompt: 'Eddie is watching Hobo work.', hint: '主句是 be 动词，就用 be 做尾巴。', answer: 'Eddie is watching Hobo work, isn\'t he?', keys: ['isn\'t he'], explain: '主句是 is → 尾巴用 isn\'t；主语 Eddie 是男孩，代词用 he。' },
+    { type: 'ask', kind: 'tag', prompt: 'You won\'t give up.', hint: '主句里已经有否定词了。', answer: 'You won\'t give up, will you?', keys: ['will you'], explain: '主句否定（won\'t）→ 尾巴用肯定 will you；前否后肯。' },
+    { type: 'ask', kind: 'tag', prompt: 'Lucy didn\'t join the club.', hint: '主句是否定，尾巴要反过来。', answer: 'Lucy didn\'t join the club, did she?', keys: ['did she'], explain: '主句否定 → 尾巴肯定；主语 Lucy 换成 she → did she。' },
+    { type: 'ask', kind: 'tag', prompt: 'There are many new things to try.', hint: 'There be 句型的尾巴用 be + there。', answer: 'There are many new things to try, aren\'t there?', keys: ['aren\'t there'], explain: 'There be 句型的反意疑问句用 aren\'t there（尾巴主语仍然用 there）。' },
+
+    /* ---- 对划线部分提问（4） ---- */
+    { type: 'ask', kind: 'rewrite', prompt: 'Tom tried __a renewable energy model__ last week.', hint: '划线部分是动词 tried 的宾语。', answer: 'What did Tom try last week?', keys: ['what', 'did', 'try'], explain: '划线是宾语 → What；last week → 借 did，tried 还原成 try。' },
+    { type: 'ask', kind: 'rewrite', prompt: 'It took him __two hours__ to finish the model.', hint: '划线部分说的是「花了多久」。', answer: 'How long did it take him to finish the model?', keys: ['how long', 'did', 'take'], explain: '划线是时长 → How long；借 did 后 took 还原成 take。' },
+    { type: 'ask', kind: 'rewrite', prompt: 'He has been to Beijing __three times__.', hint: '划线部分是「次数」。', answer: 'How many times has he been to Beijing?', keys: ['how many times', 'has', 'been'], explain: '次数 → How many times；原句已有助动词 has，直接把它提到主语前，been 保持过去分词不变。' },
+    { type: 'ask', kind: 'rewrite', prompt: 'The film started __at seven o\'clock__.', hint: '划线部分是时间点。', answer: 'When did the film start?', keys: ['when', 'did', 'start'], explain: '时间点 → When；started 是过去式 → 借 did，start 还原原形。' }
+  ]
+},
+
+/* ============================================================
    7A-G-extra 阅读简答三步法（U1 阅读答题规范）
 ============================================================ */
 {
